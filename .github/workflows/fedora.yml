@@ -1,0 +1,33 @@
+name: Fedora
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Process Image
+        run: |
+          wget https://dl.fedoraproject.org/pub/fedora/linux/releases/36/Container/x86_64/images/Fedora-Container-Minimal-Base-36-1.5.x86_64.tar.xz
+          tar -xf Fedora-Container-Minimal-Base-36-1.5.x86_64.tar.xz
+          LAYERS=$(jq -r '.[0].Layers' manifest.json)
+          LAYER=$(echo $LAYERS | cut -d '"' -f 2)
+          mv $LAYER Fedora-Container-Minimal-Base-36.x86_64.tar
+        
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: false
+          prerelease: false
+          automatic_release_tag: "fedora-36"
+          title: "Fedora 36"
+          files: "Fedora-Container-Minimal-Base-36.x86_64.tar"
