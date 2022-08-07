@@ -22,6 +22,7 @@ jobs:
           LAYERS=$(jq -r '.[0].Layers' manifest.json)
           LAYER=$(echo $LAYERS | cut -d '"' -f 2)
           mv $LAYER Fedora-Container-Minimal-Base-36.x86_64.tar
+          sha1sum Fedora-Container-Minimal-Base-36.x86_64.tar > SHA256SUMS
         
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -30,4 +31,6 @@ jobs:
           prerelease: false
           automatic_release_tag: "fedora-36"
           title: "Fedora 36"
-          files: "Fedora-Container-Minimal-Base-36.x86_64.tar"
+          files: |
+            Fedora-Container-Minimal-Base-36.x86_64.tar
+            SHA256SUMS
