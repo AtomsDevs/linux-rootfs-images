@@ -33,4 +33,4 @@ jobs:
           title: "Fedora 36"
           files: |
             Fedora-Container-Minimal-Base-36.x86_64.tar
-            SHA256SUMS
+            SHA1SUMS
