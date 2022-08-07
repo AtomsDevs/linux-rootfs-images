@@ -17,12 +17,12 @@ jobs:
 
       - name: Process Image
         run: |
-          wget https://dl.fedoraproject.org/pub/fedora/linux/releases/36/Container/x86_64/images/Fedora-Container-Minimal-Base-36-1.5.x86_64.tar.xz
-          tar -xf Fedora-Container-Minimal-Base-36-1.5.x86_64.tar.xz
+          wget https://dl.fedoraproject.org/pub/fedora/linux/releases/36/Container/x86_64/images/Fedora-Container-Base-36-1.5.x86_64.tar.xz
+          tar -xf *tar.xz
           LAYERS=$(jq -r '.[0].Layers' manifest.json)
           LAYER=$(echo $LAYERS | cut -d '"' -f 2)
-          mv $LAYER Fedora-Container-Minimal-Base-36.x86_64.tar
-          sha1sum Fedora-Container-Minimal-Base-36.x86_64.tar > SHA1SUMS
+          mv $LAYER Fedora-Container-Base-36.x86_64.tar
+          sha1sum Fedora-Container-Base-36.x86_64.tar > SHA1SUMS
         
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -32,5 +32,5 @@ jobs:
           automatic_release_tag: "fedora-36"
           title: "Fedora 36"
           files: |
-            Fedora-Container-Minimal-Base-36.x86_64.tar
+            Fedora-Container-Base-36.x86_64.tar
             SHA1SUMS
